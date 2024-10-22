@@ -15,39 +15,34 @@ public partial class TuringMachineContext : DbContext
     {
     }
 
-    public virtual DbSet<Tapealphabet> Tapealphabets { get; set; }
+    public virtual DbSet<TuringMachine> TuringMachines { get; set; }
 
-    public virtual DbSet<Turingstate> Turingstates { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=TuringMachine;Username=VictorAdmin;Password=Alfredo+123");
+   
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Tapealphabet>(entity =>
+        modelBuilder.Entity<TuringMachine>(entity =>
         {
-            entity.HasKey(e => e.Title).HasName("tapealphabet_pkey");
+            entity.HasKey(e => e.Id).HasName("turing_machines_pkey");
 
-            entity.ToTable("tapealphabet");
+            entity.ToTable("turing_machines");
 
-            entity.Property(e => e.Title)
-                .HasColumnType("character varying")
-                .HasColumnName("title");
-            entity.Property(e => e.Value).HasColumnName("value");
-        });
-
-        modelBuilder.Entity<Turingstate>(entity =>
-        {
-            entity.HasKey(e => e.Statename).HasName("turingstate_pkey");
-
-            entity.ToTable("turingstate");
-
-            entity.Property(e => e.Statename)
-                .HasColumnType("character varying")
-                .HasColumnName("statename");
-            entity.Property(e => e.Statetype)
-                .HasColumnType("character varying")
-                .HasColumnName("statetype");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AlfabetoCinta)
+                .HasMaxLength(255)
+                .HasColumnName("alfabeto_cinta");
+            entity.Property(e => e.AlfabetoEntrada)
+                .HasMaxLength(255)
+                .HasColumnName("alfabeto_entrada");
+            entity.Property(e => e.Estados)
+                .HasMaxLength(255)
+                .HasColumnName("estados");
+            entity.Property(e => e.EstadosFinales)
+                .HasMaxLength(255)
+                .HasColumnName("estados_finales");
+            entity.Property(e => e.Transiciones)
+                .HasMaxLength(255)
+                .HasColumnName("transiciones");
         });
 
         OnModelCreatingPartial(modelBuilder);
